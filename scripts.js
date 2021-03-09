@@ -195,13 +195,34 @@ function fieldJanitorFunctions(){
                 }
             });
         });
-
-
-
         return flag; 
     }
-   
-    return {add, draw, detectInterferance};
+    // I forget what this was for. 
+    function checkRows(blocks){
+        let rows = []; 
+        for(let row = 780; row > 0; row -= 20){
+            let rowSorted = blocks.filter(block => {
+                return (block.y == row);
+            });
+            rows.push(rowSorted);
+        }
+        return rows; 
+    }
+    // checked for lines, removes them, and offsets all the other static blocks to fill the space
+    function lines(){
+        // find completed lines
+        const completeLines = checkRows(calcFieldCoords()).filter(row => {
+            return (row.length == 20);
+        });
+        let toRemove = []; 
+        
+        completeLines.forEach(row => row.forEach(block => toRemove.push(block)));
+        
+        // TO DO - remove identified lines from fieldArr
+
+    }
+
+    return {add, draw, detectInterferance, lines};
 }
 // rotate current piece
 function rotate(matrix){
@@ -213,12 +234,13 @@ function rotate(matrix){
         return output;
     }
     function transpose(matrix){
-        return matrix[0].map((x,i) => matrix.map(x => x[i]));
-        
+        return matrix[0].map(function(element, index){ 
+                    return matrix.map(function(element){  
+                        return element[index];
+                    });
+               });
     }
-   
-    return mirrorOverX(transpose(matrix))
-    
+    return mirrorOverX(transpose(matrix)); 
 }
 // set up some basics and kick off the game
 function start(){
@@ -250,6 +272,8 @@ function start(){
                 field.add(currPiece);
                 currPiece = transformPiece(getPiece(), 180, 20); 
             }
+
+            field.lines(); 
 
             ctx.clearRect(0,0, 400, 800); // clear the entire canvas every time
             updateActivePiece(currPiece); // move down each frame
@@ -293,6 +317,7 @@ function start(){
                     currPiece.x = formerx; 
                 }
             });
+            field.lines(); 
             ctx.clearRect(0,0, 400, 800); 
             field.draw(); 
             drawPiece(currPiece)
@@ -319,4 +344,4 @@ function start(){
     window.requestAnimationFrame(game); // kick things off
 }
 
- start(); 
+start();
