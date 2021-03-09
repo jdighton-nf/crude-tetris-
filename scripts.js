@@ -14,7 +14,8 @@ function getPiece(){
         {
             piece: [
                 [1, 1, 1],
-                [0, 1, 0]
+                [0, 1, 0],
+                [0, 0, 0]
             ],
             name: "Tee",
             x:0, 
@@ -24,10 +25,10 @@ function getPiece(){
         },
         {
             piece: [
-                [1],
-                [1],
-                [1],
-                [1] 
+                [1, 0, 0, 0],
+                [1, 0, 0, 0],
+                [1, 0, 0, 0],
+                [1, 0, 0, 0] 
             ],
             name: 'Long', 
             x:0, 
@@ -36,9 +37,9 @@ function getPiece(){
         },
         {
             piece:[
-                [1, 0],
-                [1, 0], 
-                [1, 1]
+                [1, 0, 0],
+                [1, 0, 0], 
+                [1, 1, 0]
             ], 
             name: 'Right L', 
             x:0, 
@@ -47,9 +48,9 @@ function getPiece(){
         },
         {
             piece:[
-                [0, 1],
-                [0, 1], 
-                [1, 1]
+                [0, 1, 0],
+                [0, 1, 0], 
+                [1, 1, 0]
             ], 
             name: 'Left L', 
             x:0, 
@@ -68,9 +69,9 @@ function getPiece(){
         }, 
         {
             piece:[
-                [1, 0], 
-                [1, 1], 
-                [0, 1]
+                [1, 0, 0], 
+                [1, 1, 0], 
+                [0, 1, 0]
             ], 
             name: 'Zig', 
             x:0, 
@@ -79,9 +80,9 @@ function getPiece(){
         }, 
         {
             piece:[
-                [0, 1], 
-                [1, 1], 
-                [1, 0]
+                [0, 1, 0], 
+                [1, 1, 0], 
+                [1, 0, 0]
             ], 
             name: 'Zag', 
             x:0, 
@@ -203,9 +204,21 @@ function fieldJanitorFunctions(){
     return {add, draw, detectInterferance};
 }
 // rotate current piece
-function rotate(currPiece){
+function rotate(matrix){
+    function mirrorOverX(matrix){
+        let output = [];
+        for(let i = matrix.length - 1; i >= 0; i--){
+             output.push(matrix[i]);
+        }
+        return output;
+    }
+    function transpose(matrix){
+        return matrix[0].map((x,i) => matrix.map(x => x[i]));
+        
+    }
+   
+    return mirrorOverX(transpose(matrix))
     
-    return currPiece; 
 }
 // set up some basics and kick off the game
 function start(){
@@ -213,7 +226,7 @@ function start(){
     drawPiece(currPiece);
     const field = fieldJanitorFunctions();
     let lastTime; 
-    let targetInterval = 750 // ms
+    let targetInterval = 250 // ms
 
     function game(timestamp){
         if(lastTime === undefined){
@@ -291,7 +304,10 @@ function start(){
     // detect spacebar, rotate currPiece
     window.addEventListener('keydown', e => {
         if(e.keyCode == 32){
-            currPiece = rotate(currPiece);
+            currPiece.piece = rotate(currPiece.piece);  
+            ctx.clearRect(0,0, 400, 800); 
+            field.draw(); 
+            drawPiece(currPiece)
         }
     });
 
