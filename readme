@@ -1,12 +1,13 @@
 Imagine a version of tetris that you wouldn't want to play, but make it worse. 
 That's the goal here. 
 
-I wrote this as a learning project, and as it turns out I had a lot to learn.
-This really needs a lot of polish but it isn't going to get it because in retrospect I'd 
-end up re-writing it. Saving because I want something to look back on. 
+I wrote this as a learning project, and as it turns out I had a lot to learn. The goal was to 
+figure out how to make this work entirely on my own, without copying solutions from anywhere else, 
+or even so much as a general guide to follow. I feel that my overall comfort level with js has increased
+to the point that I can now start building on my current skill level. After this I plan to learn about RESTful APIs
+and gain experience and knowledge working with all the relevent elements of the MERN stack. Once I've built a few 
+practice projects we'll see what happens. 
 
-To play, clone it and the open index.html in your browser. 
+Saving because I want something to look back on. 
 
-Arrow right and left move the piece, space rotates. Down accelerates to the bottom. 
-
-Don't play it.
+(thanks for reading my blog, lol)
