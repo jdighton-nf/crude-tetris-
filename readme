@@ -1,2 +1,12 @@
 Imagine a version of tetris that you wouldn't want to play, but make it worse. 
 That's the goal here. 
+
+I wrote this as a learning project, and as it turns out I had a lot to learn.
+This really needs a lot of polish but it isn't going to get it because in retrospect I'd 
+end up re-writing it. Saving because I want something to look back on. 
+
+To play, clone it and the open index.html in your browser. 
+
+Arrow right and left move the piece, space rotates. Down accelerates to the bottom. 
+
+Don't play it.

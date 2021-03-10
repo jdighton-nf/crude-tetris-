@@ -2,11 +2,13 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
+// the width and height of the blocks 
+
 function updateScore(){ //when called increase score by one
     document.querySelector('.score').firstElementChild.textContent++;   
 }
 function clearScore(){
-    document.querySelector('.score').firstElementChild.textContent = 0; 
+    document.querySelector('.score').firstElementChild.textContent++; 
 }
 // returns a random piece { piece name x y }
 function getPiece(){
@@ -181,7 +183,7 @@ function fieldJanitorFunctions(){
             block[1].forEach(atom => {
                 ctx.fillRect(atom.x, atom.y, BLOCKSIZE, BLOCKSIZE);
             });
-        });
+        });     
     }
     // detect when pieces land on each other or we crash them into each other from the side
     function detectInterferance(currPiece){
@@ -214,12 +216,36 @@ function fieldJanitorFunctions(){
         const completeLines = checkRows(calcFieldCoords()).filter(row => {
             return (row.length == 20);
         });
-        let toRemove = []; 
-        
-        completeLines.forEach(row => row.forEach(block => toRemove.push(block)));
-        
-        // TO DO - remove identified lines from fieldArr
 
+        let toRemove = []; 
+
+        completeLines.forEach(row => row.forEach(block => toRemove.push(block)));
+        // remove the completed lines from the fieldArr
+
+        if(toRemove.length != 0){ // only run when needed
+            toRemove.forEach(function(blockToRemove){
+                fieldArr.forEach(function(fieldEntry){
+                    fieldEntry[1].forEach(function(fieldBlock){
+                        // delete blocks from fieldArr
+                        if((fieldBlock.x == blockToRemove.x) && (fieldBlock.y == blockToRemove.y)){
+                            fieldEntry[1].splice(fieldEntry[1].indexOf(fieldBlock), 1);
+
+                        }
+                            // check if anything needs to be offset and then do it
+                            fieldArr.forEach(fieldEntryA => {
+                                fieldEntryA[1].forEach(fieldBlockA => {
+                                    if((fieldBlockA.x == fieldBlock.x) && (fieldBlockA.y < fieldBlock.y)){
+                                        fieldBlockA.y += 20; 
+                                    }    
+                                });
+                            });
+                    });
+                });
+            });
+            for(let i = 0; i < completeLines.length; i++){
+                updateScore(); 
+            }
+        }
     }
 
     return {add, draw, detectInterferance, lines};
